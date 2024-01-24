@@ -17,14 +17,19 @@ class MenuItemSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'price', 'featured', 'category', 'category_id']
         
 class CartSerializer(serializers.ModelSerializer):
+    
+    menuitem = MenuItemSerializer()
+    
+    items_price = serializers.SerializerMethodField(method_name='calc_price')
     user = serializers.PrimaryKeyRelatedField(
             queryset=User.objects.all(),
             default=serializers.CurrentUserDefault()
     )
     class Meta:
         model = Cart
-        fields = ['user', 'menuitem', 'quantity', 'unit_price', 'price']
-        
+        fields = ['id', 'user', 'menuitem', 'quantity', 'items_price']
+    def calc_price(self, product:Cart):
+        return product.unit_price * product.quantity
         
 class OrderSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(
