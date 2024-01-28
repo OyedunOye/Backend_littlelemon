@@ -17,19 +17,27 @@ class MenuItemSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'price', 'featured', 'category', 'category_id']
         
 class CartSerializer(serializers.ModelSerializer):
+    menu = serializers.CharField(write_only=True)
+    menuitem = MenuItemSerializer(read_only=True)
+    unit_price = MenuItemSerializer.field['price']
     
-    menuitem = MenuItemSerializer()
+    def validate(self, attrs):
+        attrs['price'] = attrs['quantity'] * attrs['unit_price']
+        return attrs
     
-    items_price = serializers.SerializerMethodField(method_name='calc_price')
+    # items_price = serializers.SerializerMethodField(method_name='calc_price')
     user = serializers.PrimaryKeyRelatedField(
             queryset=User.objects.all(),
             default=serializers.CurrentUserDefault()
     )
     class Meta:
         model = Cart
-        fields = ['id', 'user', 'menuitem', 'quantity', 'items_price']
-    def calc_price(self, product:Cart):
-        return product.unit_price * product.quantity
+        fields = ['id', 'user', 'menuitem', 'menu', 'quantity', 'unit_price', 'price']
+        extra_kwargs = {
+            'user': {'read_only': True},
+            'unit_price': {'read_only': True},
+            'price': {'read_only': True}
+        }
         
 class OrderSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(
