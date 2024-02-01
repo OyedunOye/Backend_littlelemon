@@ -19,7 +19,7 @@ class MenuItemSerializer(serializers.ModelSerializer):
 class CartSerializer(serializers.ModelSerializer):
     menu = serializers.CharField(write_only=True)
     menuitem = MenuItemSerializer(read_only=True)
-    unit_price = MenuItemSerializer.field['price']
+    # unit_price = MenuItemSerializer.field['price']
     
     def validate(self, attrs):
         attrs['price'] = attrs['quantity'] * attrs['unit_price']
