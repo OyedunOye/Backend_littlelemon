@@ -16,9 +16,16 @@ class MenuItemSerializer(serializers.ModelSerializer):
         model = MenuItem
         fields = ['id', 'title', 'price', 'featured', 'category', 'category_id']
         
+class UserSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(many=True, queryset=Cart.objects.all())
+    class Meta:
+        model = User
+        fields = ['id', 'username']
+        
 class CartSerializer(serializers.ModelSerializer):
     menu = serializers.CharField(write_only=True)
     menuitem = MenuItemSerializer(read_only=True)
+    user = serializers.PrimaryKeyRelatedField(many=True, queryset=Cart.objects.all())
     # unit_price = MenuItemSerializer.field['price']
     
     def validate(self, attrs):
