@@ -31,15 +31,19 @@ class MenuItemsView(generics.ListCreateAPIView):
             else:
                 return []
             
-    def post_permission(self, request):
-        if request.user.IsAuthenticated:
+    def post(self, request):
+        # if request.user.IsAuthenticated:
             if(self.request.method == "POST"):
                 if request.auth.groups.filter(name="Customer").exists():
                     return Response({'message': 'You are unauthorized to perform this action.'}, status=status.HTTP_403_FORBIDDEN)
                 if request.auth.groups.filter(name="delivery_crew").exists():
                     return Response({'message': 'You are unauthorized to perform this action.'}, status=status.HTTP_403_FORBIDDEN)
                 if request.auth.groups.filter(name="Manager").exists():
-                    return [IsAuthenticated]
+                    return self.create(request)
+                    # serializer = MenuItemSerializer(data=request.data)
+                    # if serializer.is_valid():
+                    #     serializer.save()
+                    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
      
 class CartView(generics.ListCreateAPIView):
