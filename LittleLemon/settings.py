@@ -141,3 +141,8 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.SessionAuthentication',
     ),
 }
+
+DJOSER = {
+    "USER_ID_FIELD": "username",
+    # "LOGIN_FIELD": "email",
+}
