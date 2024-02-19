@@ -1,0 +1,16 @@
+List of users and their respective passwords. Note that both usernames and passwords are case-sensitive.
+
+superuser:
+username - littlelemonadmin, password - lemon@!
+
+manager:
+username - Adrian, password - lemon@adr!
+
+delivery crew:
+username - Sana, password - lemon@san!
+username - Kofo, password - lemon@kof
+
+customer:
+username - Sade, password - Shady1
+username - Mario, password - lemon@mar!
+username - Glory, password - lemon@glo
