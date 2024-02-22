@@ -59,7 +59,3 @@ class OrderItem(models.Model):
     class Meta:
         unique_together = ('order', 'menuitem')
     
-# class Rating(models.Model):
-#     menuitem_id = models.SmallIntegerField()
-#     rating = models.SmallIntegerField()
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
